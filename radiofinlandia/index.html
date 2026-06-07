@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>radio finlandia</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="memory-field">
+
+    <img src="photos/01.JPG" class="memory memory1">
+    <img src="photos/02.JPG" class="memory memory2">
+    <img src="photos/03.JPG" class="memory memory3">
+    <img src="photos/04.JPG" class="memory memory4">
+    <img src="photos/05.JPG" class="memory memory5">
+    <img src="photos/06.JPG" class="memory memory6">
+
+</div>
+
+<header>
+
+    <div class="station">
+        radio finlandia
+    </div>
+
+    <div class="live active">
+
+        <span class="live-dot"></span>
+
+        en directo
+
+    </div>
+
+</header>
+
+<section class="sphere-section">
+
+<pre class="sphere" id="sphere">
+        _____
+    .-'     '-.
+  .'           '.
+ /               \
+|    .. rf ..     |
+|                 |
+ \               /
+  '.           .'
+    '-._____.-'
+</pre>
+
+</section>
+
+<div class="line"></div>
+
+<section class="archive">
+
+<h2>ARCHIVO</h2>
+
+<div class="entry">
+
+    <span class="date">
+        2026.06.06.
+    </span>
+
+    <div>
+
+        <a href="#" id="rf001" class="transmission">
+            ▶ DJ GUANTAZO : RF001
+        </a>
+
+        <div class="progress-container">
+
+            <input
+                type="range"
+                id="rf001-progress"
+                min="0"
+                max="100"
+                value="0">
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<script>
+
+/* -------------------- */
+/* AUDIO */
+/* -------------------- */
+
+const transmission001 =
+new Audio("audio/RF001.mp3");
+
+const progress =
+document.getElementById(
+    "rf001-progress"
+);
+const rf001 =
+document.getElementById("rf001");
+
+rf001.addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    if(transmission001.paused){
+
+        transmission001.play();
+
+        rf001.textContent =
+        "▌▌ DJ GUANTAZO : RF001";
+
+    }else{
+
+        transmission001.pause();
+
+        rf001.textContent =
+        "▶ DJ GUANTAZO : RF001";
+    }
+});
+
+transmission001.addEventListener("ended", function(){
+
+    rf001.textContent =
+    "▶ DJ GUANTAZO : RF001";
+});
+transmission001.addEventListener(
+    "timeupdate",
+    function(){
+
+        if(transmission001.duration){
+
+            progress.value =
+            (transmission001.currentTime /
+            transmission001.duration) * 100;
+        }
+    }
+);
+
+progress.addEventListener(
+    "input",
+    function(){
+
+        if(transmission001.duration){
+
+            transmission001.currentTime =
+            (progress.value / 100) *
+            transmission001.duration;
+        }
+    }
+);
+
+/* -------------------- */
+/* SPHERE EXPLOSION */
+/* -------------------- */
+
+const sphere =
+document.getElementById("sphere");
+
+function explodeSphere(){
+
+    sphere.classList.add("explode");
+
+    setTimeout(function(){
+
+        sphere.classList.remove("explode");
+
+    },12000);
+}
+
+function scheduleExplosion(){
+
+    const delay =
+        45000 +
+        Math.random() * 90000;
+
+    setTimeout(function(){
+
+        explodeSphere();
+
+        scheduleExplosion();
+
+    },delay);
+}
+
+scheduleExplosion();
+
+</script>
+
+</body>
+
+</html>
